@@ -2,6 +2,25 @@ import tiktoken
 import torch 
 from torch import nn
 
+# Vocabulary size
+# Context length
+# Embedding dimension
+# Number of attention heads
+# Number of layers
+# Dropout rate
+# Query-Key-Value bias
+
+# Configuration for a hypothetical GPT model
+GPT_CONFIG_124M = {
+    "vocab_size": 50257,
+    "context_length": 1024,
+    "emb_dim": 768,
+    "n_heads": 12,
+    "n_layers": 12,
+    "drop_rate": 0.1,
+    "qkv_bias": False
+}
+
 class DeepText(nn.Module):
     def __init__(self, cfg):
         pass
@@ -38,4 +57,3 @@ model = DeepText(cfg=None)
 logits = model(batch)
 print(logits.shape)  # Should match the expected output shape based on the model's architecture
 print(logits)
-

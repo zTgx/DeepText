@@ -1,0 +1,14 @@
+
+[project]
+name = "deeptext"
+version = "0.1.0"
+description = "A simplified GPT-like model for text generation."
+authors = [{name = "zTgx", email = "beautifularea@gmail.com"}]
+dependencies = [
+    "torch",
+    "tiktoken"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"

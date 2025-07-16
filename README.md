@@ -7,9 +7,9 @@ This is a hands-on exploration of Transformer architectures, featuring a from-sc
 python src/main.py
 ```
 
-## The output results
+## The output results(at least 10,000 times 0000 ~ 9999)
 
-* NO.00001
+* NO.0000
 ```
 Every effort moves you Feature Componentsspir intestLed SUP commemor exemplary cohort closures Diaryattack marched relate Jackie
 ```

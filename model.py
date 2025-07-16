@@ -3,25 +3,8 @@ from torch import nn
 import tiktoken
 
 from norm import LayerNorm
-
-# Vocabulary size
-# Context length
-# Embedding dimension
-# Number of attention heads
-# Number of layers
-# Dropout rate
-# Query-Key-Value bias
-
-# Configuration for a hypothetical GPT model
-GPT_CONFIG_124M = {
-    "vocab_size": 50257,
-    "context_length": 1024,
-    "emb_dim": 768,
-    "n_heads": 12,
-    "n_layers": 12,
-    "drop_rate": 0.1,
-    "qkv_bias": False
-}
+from config import GPT_CONFIG_124M
+from block import TransformerBlock
 
 # DeepText model definition
 # A simplified version of a GPT-like model using PyTorch’s neural network module (nn.Module).
@@ -70,40 +53,86 @@ class DeepText(nn.Module):
         #  每一个 单词计算一个分数（称为 "logit"）
         return logits
 
-class TransformerBlock(nn.Module):
-    def __init__(self, cfg):
-        super().__init__()
+def generate_text_simple(model, idx, max_new_tokens, context_size):
+    for _ in range(max_new_tokens):
+        idx_cond = idx[:, -context_size:]
 
-    def forward(self, x):
-        return x
+        with torch.no_grad():
+            logits = model(idx_cond)
+            logits = logits[:, -1, :]
+
+            probas = torch.softmax(logits, dim=-1)
+
+            idx_next = torch.argmax(probas, dim=-1, keepdim=True)
+            idx = torch.cat((idx, idx_next), dim=1)
+
+    return idx
 
 ################################################### # Example usage ###################################################
-tokenizer = tiktoken.get_encoding("gpt2")
-batch = []
-text1 = "Every effort moves you"
-text2 = "Every day holds a"
+# tokenizer = tiktoken.get_encoding("gpt2")
+# batch = []
+# text1 = "Every effort moves you"
+# text2 = "Every day holds a"
 
-text1_tokens = tokenizer.encode(text1, allowed_special={"<|endoftext|>"})
-text2_tokens = tokenizer.encode(text2, allowed_special={"<|endoftext|>"})
-print(f"Text 1 tokens: {text1_tokens}")
-print(f"Text 2 tokens: {text2_tokens}")
+# text1_tokens = tokenizer.encode(text1, allowed_special={"<|endoftext|>"})
+# text2_tokens = tokenizer.encode(text2, allowed_special={"<|endoftext|>"})
+# print(f"Text 1 tokens: {text1_tokens}")
+# print(f"Text 2 tokens: {text2_tokens}")
 
-text1_tokens_tensor = torch.tensor(text1_tokens)
-text2_tokens_tensor = torch.tensor(text2_tokens)
-print(f"Text 1 tokens tensor: {text1_tokens_tensor}")
-print(f"Text 2 tokens tensor: {text2_tokens_tensor}")
+# text1_tokens_tensor = torch.tensor(text1_tokens)
+# text2_tokens_tensor = torch.tensor(text2_tokens)
+# print(f"Text 1 tokens tensor: {text1_tokens_tensor}")
+# print(f"Text 2 tokens tensor: {text2_tokens_tensor}")
 
-batch.append(text1_tokens_tensor)
-batch.append(text2_tokens_tensor)
+# batch.append(text1_tokens_tensor)
+# batch.append(text2_tokens_tensor)
 
-# dim=0 means the new dimension will be the very first one.
-batch = torch.stack(batch, dim=0)
-print(batch)  # torch.Size([2, 4])
+# # dim=0 means the new dimension will be the very first one.
+# batch = torch.stack(batch, dim=0)
+# print(batch)  # torch.Size([2, 4])
 
-torch.manual_seed(123)
+# torch.manual_seed(123)
 
-# Initialize the model and run a forward pass
-model = DeepText(cfg=None)
-logits = model(batch)
-print(logits.shape)  # Should match the expected output shape based on the model's architecture
-print(logits)
+# # Initialize the model and run a forward pass
+# model = DeepText(cfg=None)
+# logits = model(batch)
+# print(logits.shape)  # Should match the expected output shape based on the model's architecture
+# print(logits)
+
+# total_params = sum(p.numel() for p in model.parameters())
+# print(f"Total number of parameters: {total_params:,}") # 163,009,536
+
+# # The reason is a concept called weight tying, which was used in the original GPT-2
+# # architecture.It means that the original GPT-2 architecture reuses the weights from
+# # the token embedding layer in its output layer.
+
+# print("Token embedding layer shape:", model.tok_emb.weight.shape)
+# print("Output layer shape:", model.out_head.weight.shape)
+
+# total_params_gpt2 = (
+# total_params - sum(p.numel()
+# for p in model.out_head.parameters())
+# )
+# print(f"Number of trainable parameters "
+# f"considering weight tying: {total_params_gpt2:,}"
+# )
+
+# total_size_bytes = total_params * 4
+# total_size_mb = total_size_bytes / (1024 * 1024)
+# print(f"Total size of the model: {total_size_mb:.2f} MB")
+
+
+# def generate_text_simple(model, idx, max_new_tokens, context_size):
+#     for _ in range(max_new_tokens):
+#         idx_cond = idx[:, -context_size:]
+
+#         with torch.no_grad():
+#             logits = model(idx_cond)
+#             logits = logits[:, -1, :]
+
+#             probas = torch.softmax(logits, dim=-1)
+
+#             idx_next = torch.argmax(probas, dim=-1, keepdim=True)
+#             idx = torch.cat((idx, idx_next), dim=1)
+
+#     return idx

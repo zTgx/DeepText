@@ -2,8 +2,14 @@
 
 This is a hands-on exploration of Transformer architectures, featuring a from-scratch PyTorch implementation of a GPT-style model. Designed as a learning journey, the project prioritizes understanding core mechanisms over production use, with iterative updates as knowledge deepens.
 
-## Key features:
+## Run
+```python
+python src/main.py
+```
 
-* Pure PyTorch implementation
-* Focus on Transformer internals
-* Living codebase (continuous improvements)
+## The output results
+
+* NO.00001
+```
+Every effort moves you Feature Componentsspir intestLed SUP commemor exemplary cohort closures Diaryattack marched relate Jackie
+```

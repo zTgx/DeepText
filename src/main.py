@@ -1,6 +1,7 @@
 import torch 
 import tiktoken
-from model import DeepText, generate_text_simple
+from model import DeepText
+from utils import generate, text_to_token_ids, token_ids_to_text
 from config import GPT_CONFIG_124M
 
 tokenizer = tiktoken.get_encoding("gpt2")
@@ -41,15 +42,13 @@ print("encoded_tensor.shape:", encoded_tensor.shape)
 
 
 model.eval()
-out = generate_text_simple(
-    model=model,
-    idx=encoded_tensor,
-    max_new_tokens=6,
-    context_size=GPT_CONFIG_124M["context_length"]
+token_ids = generate(
+model=model,
+idx=text_to_token_ids("Every effort moves you", tokenizer),
+max_new_tokens=15,
+context_size=GPT_CONFIG_124M["context_length"],
+top_k=25,
+temperature=1.4
 )
-print("Output:", out)
-print("Output length:", len(out[0]))
-
-decoded_text = tokenizer.decode(out.squeeze(0).tolist())
-print(decoded_text)
+print("Output text:\n", token_ids_to_text(token_ids, tokenizer))
 

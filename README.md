@@ -1,15 +1,23 @@
 # DeepText: A GPT model to generate text
 
-This is a hands-on exploration of Transformer architectures, featuring a from-scratch PyTorch implementation of a GPT-style model. Designed as a learning journey, the project prioritizes understanding core mechanisms over production use, with iterative updates as knowledge deepens.
+**HuggingFace Model:** [DeepText](https://huggingface.co/ztgx/DeepText)
 
-## Run
+## Goal
+**Make It From A Toy into A More Robust And Production-ready System.**
+
+## Usage
 ```python
 python src/main.py
 ```
 
-## The output results(at least 10,000 times 0000 ~ 9999)
+## Outputs
+
+* NO.00001
+```bash
+TBC
+```
 
 * NO.0000
-```
+```bash
 Every effort moves you Feature Componentsspir intestLed SUP commemor exemplary cohort closures Diaryattack marched relate Jackie
 ```

@@ -2,9 +2,6 @@
 
 **HuggingFace Model:** [DeepText](https://huggingface.co/ztgx/DeepText)
 
-## Goal
-**Make It From A Toy into A More Robust And Production-ready System.**
-
 ## Usage
 ```python
 python src/main.py
@@ -12,9 +9,14 @@ python src/main.py
 
 ## Outputs
 
+* NO.00002
+```bash
+
+```
+
 * NO.00001
 ```bash
-TBC
+Every effort moves you Feature Componentsspir intestLed SUP commemor exemplary cohort closures Diaryattack marched relate Jackie
 ```
 
 * NO.0000
